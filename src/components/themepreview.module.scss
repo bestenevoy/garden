@@ -14,6 +14,17 @@ $hoverTransition: 0.25s ease-in-out;
       flex: 1;
       opacity: 1;
     }
+    .preview-expand {
+      display: none;
+      @media (min-width: 510px) {
+        display: block;
+      }
+      transition-delay: 0s;
+      opacity: 0.9;
+      &__wrapper {
+        transform: scale(.9);
+      }
+    }
   }
 
   img,
@@ -46,6 +57,18 @@ $hoverTransition: 0.25s ease-in-out;
       position: absolute;
       top: 0;
       right: 0;
+    }
+  }
+
+  &__cover-link{
+    top: 0;
+    bottom: 0;
+    right: 0;
+    left: 0;
+    position: absolute;
+    z-index: 1;
+    span {
+      display: none;
     }
   }
 
@@ -93,5 +116,70 @@ $hoverTransition: 0.25s ease-in-out;
     svg {
       margin-right: 3px;
     }
+  }
+}
+
+
+.preview-expand {
+  cursor: pointer;
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  display: block;
+  color: #ccc;
+  padding: 1em 1em 1em 20%;
+  z-index: 1;
+  opacity: 0;
+  transition: .25s cubic-bezier(.5,0,.5,1);
+  transition-property: opacity, display;
+  overflow: hidden;
+  border-radius: inherit;
+  &:before{
+    content: "";
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 100%;
+    height: 100%;
+    max-width: 200px;
+    max-height: 200px;
+    background: linear-gradient(to bottom left,rgba(#ddd,.7),rgba(#444,.2),transparent 49%);
+    opacity: .8;
+    transition: inherit;
+    transform: scale(.9);
+    transform-origin: top right;
+    transition-property: opacity,transform;
+  }
+  &:hover{
+    color: white;
+    opacity:0.9;
+    &:before{
+      opacity: .99;
+      transform: none;
+    }
+    .preview-expand__wrapper {
+      transform: scale(1);
+      background-color: #717790;
+    }
+  }
+  &__wrapper {
+    display: block;
+    height: inherit;
+    z-index: 1;
+    border: none;
+    border-radius: 6px;
+    padding: .5em;
+    background: #666;
+    box-shadow: 2px 2px 6px rgb(0 0 0 / 40%);
+    transform: translate(.25rem) scale(.9);
+    transition: .25s cubic-bezier(.5,0,.5,1);
+    transition-property: transform,background-color,opacity;
+  }
+  &__icon {
+    display: block;
+    fill: currentColor;
+    width: 16px;
+    height: 16px;
   }
 }

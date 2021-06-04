@@ -29,11 +29,11 @@ $cardGap: max(15px, 1vw);
   &__preview-item {
     padding: $cardGap;
     min-width: 200px;
-
+    flex-basis: 100%;
     @media (min-width: 800px) {
       flex-basis: 50%;
     }
-    @media (min-width: 1261px) {
+    @media (min-width: 1450px) {
       flex-basis: 33.33%;
     }
   }

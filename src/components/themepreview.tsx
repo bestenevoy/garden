@@ -9,7 +9,7 @@ import type {IVerboseTheme} from 'src/garden'
 import {Fabric, Quote, Link, Icons} from 'src/components'
 import Domino from './domino'
 import styles from './themepreview.module.scss'
-
+import Popup from './popup'
 
 interface IProps {
     theme: IVerboseTheme
@@ -17,7 +17,7 @@ interface IProps {
 }
 
 const bem = mbem(styles)
-const IMAGE_TIMEOUT = 6000
+const IMAGE_TIMEOUT = 10000
 
 export default function ThemePreview ({theme, fetching = false}: IProps) {
     const {id, manifest, stats} = theme
@@ -27,7 +27,8 @@ export default function ThemePreview ({theme, fetching = false}: IProps) {
 
     const [loading, setLoading] = useState(true)
     const [usingIframe, setUsingIframe] = useState(false)
-
+    const [seen, setSeen] = useState(false)
+    const toggle = () => {setSeen(!seen)}
     const onComplete = () => {
         cancelTimer()
         setLoading(false)
@@ -61,15 +62,24 @@ export default function ThemePreview ({theme, fetching = false}: IProps) {
 
     return (
         <Fabric className={`${bem('preview', '', {fetching})}`} clearfix verticle grow>
-            <Link className={`${bem('preview', 'frame-wrapper')}`} href={`/theme/${id}`} target="_blank" tabIndex={1}>
+            <Fabric clearfix className={`${bem('preview', 'frame-wrapper')}`}>
                 <Fabric className={bem('preview', 'frame')}>
+                    <Link className={`${bem('preview', 'cover-link')}`} href={`/theme/${id}`} target="_blank" tabIndex={1}>
+                        <span> Open the Page </span>
+                    </Link>
                     {usingIframe
                         ? <iframe src={themePath} className={bem('preview', 'iframe')} frameBorder="0" scrolling="no" tabIndex={-1} />
                         : <Image layout="fill" onLoad={onLoad} onError={onError} src={snapshotSrc} alt={snapshotSrc} />
                     }
                     {(fetching || loading) && <Domino />}
+                    <a className={bem('preview-expand')} onClick={toggle}>
+                        <Fabric clearfix className={bem('preview-expand', 'wrapper')} >
+                            <Icons.Expand className={bem('preview-expand', 'icon')} />
+                        </Fabric>
+                    </a>
                 </Fabric>
-            </Link>
+            </Fabric>
+            {seen ? <Popup toggle={toggle} ><iframe src={themePath} width="100%" height="100%" frameBorder="0" /></Popup> : ''}
             <Fabric clearfix className={bem('preview-caption')}>
                 <Quote inline quote={manifest.name} author={manifest.author} />
                 <Fabric grow clearfix className={bem('preview-caption', 'stats')}>
