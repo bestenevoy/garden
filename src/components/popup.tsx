@@ -16,8 +16,10 @@ export default function Popup ({children, toggle}: IProps) {
     }
     return (
         <div className={styles.modal} onClick={onClick}>
-            <div className={styles.modal_content} onClick={stopDefault}>
-                {children}
+            <div className={styles.modal_main}>
+                <div className={styles.modal_content} onClick={stopDefault}>
+                    {children}
+                </div>
             </div>
         </div>
     )
