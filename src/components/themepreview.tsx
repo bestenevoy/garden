@@ -37,7 +37,7 @@ export default function ThemePreview ({theme, fetching = false}: IProps) {
     const onError = () => {
         onComplete()
         setUsingIframe(true)
-        // fetch(snapshotApiPath)
+        fetch(snapshotApiPath)
     }
 
     const cancelTimer = useTimer(onError, IMAGE_TIMEOUT)
